@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,7 +45,7 @@
 
   .card { background: var(--bg-panel); border: 1px solid var(--line); border-radius: 14px; }
 
-  /* Local clock at top */
+  /* 顶部当地时间 */
   .clockbar { padding: 8px 20px; text-align: center; position: relative; }
   .clockbar .c-time { font-size: 28px; font-weight: 600; color: var(--accent); line-height: 1.1; }
   .clockbar .c-sub { font-size: 28px; line-height: 1.1; color: var(--ink-dim); margin-top: 2px; min-height: 31px; }
@@ -52,7 +53,7 @@
   .layout { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 8px; align-items: stretch; }
   .col-main, .col-side { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
   .col-side { position: relative; }
-
+  
   .switcher { display: flex; padding: 4px; gap: 4px; border-radius: 999px; }
   .switcher button {
     flex: 1; padding: 10px 0; border: none; background: transparent; color: var(--ink-dim);
@@ -113,7 +114,20 @@
   #stopwatch-stage .controls, #stopwatch-stage .laps { display: none; }
   .hidden { display: none !important; }
 
+  /* 圆环四角数据 */
   .zone { position: relative; display: flex; flex-direction: column; --pt: 36px; --ring: 340px; --ch: 48px; }
+  .corners { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+  .stat { position: absolute; width: 130px; height: var(--ch); display: flex; flex-direction: column; justify-content: center; }
+  .stat .t-rl { display: block; font-size: 12px; font-weight: 300; color: var(--ink-dim); letter-spacing: 0.06em; line-height: 1.2; }
+  .stat .t-rv { display: block; margin-top: 3px; font-size: 17px; font-weight: 300; line-height: 1.15; }
+  .stat.tl, .stat.bl { left: 24px; text-align: left; }
+  .stat.tr, .stat.br { right: 24px; text-align: right; }
+  .stat.tl, .stat.tr { top: var(--pt); }
+  .stat.bl, .stat.br { top: calc(var(--pt) + var(--ring) - var(--ch)); }
+
+  .session { padding: 12px 18px; display: flex; align-items: baseline; justify-content: center; gap: 14px; }
+  .session .t-rl { font-size: 15px; color: var(--ink-dim); letter-spacing: 0.06em; }
+  .session .t-rv { font-size: 32px; font-weight: 700; color: var(--accent); }
 
   body { padding-left: 12px; padding-right: 12px; }
   :root { --ring: 220px; }
@@ -130,7 +144,7 @@
   .stats-card { flex: 1; display: flex; flex-direction: column; }
   .col-side .stats-card .side-row { flex: 1; align-items: center; padding: 12px 0; }
   .col-side .stats-card .side-title { flex: none; }
-  /* Stats list: scrolls inside the list, one item at a time */
+  /* 统计列表：在列表内部滚动，一次只显示一项（滚动吸附） */
   .stats-card { --stat-h: 275px; }
   .stats-list { position: relative; flex: none; height: var(--stat-h); }
   .stats-scroll { height: 100%; overflow: hidden; scrollbar-width: none; -ms-overflow-style: none; outline: none; border-radius: 10px; }
@@ -143,7 +157,7 @@
   .stats-dots button { width: 8px; height: 8px; padding: 0; border: none; border-radius: 50%; background: var(--line); cursor: pointer; transition: background .2s ease, transform .2s ease; }
   .stats-dots button:hover { background: var(--ink-dim); }
   .stats-dots button.active { background: var(--accent); transform: scale(1.4); }
-  /* Stats: collapsed to one row (looping), expanded shows all */
+  /* 统计：折叠为一行（循环滚动），展开后列出全部 */
   .stats-card { --stat-h: 56px; }
   .stats-dots { display: none; }
   .stat-item { flex-direction: row; justify-content: space-between; align-items: center; gap: 12px; padding: 0 4px; }
@@ -153,6 +167,7 @@
   #stats-toggle .arrow { width: 22px; height: 22px; flex: none; color: var(--ink-dim); transition: transform .2s ease; }
   #stats-toggle[aria-expanded="true"] .arrow { transform: rotate(180deg); }
   #stats-toggle:hover .arrow { color: var(--accent); }
+  /* 统计居中 */
   .stat-item { justify-content: center; gap: 16px; }
   #stats-toggle > span { flex: 1; text-align: center; padding-left: 22px; }
   .stats-card .side-row.session-row { justify-content: center; gap: 16px; }
@@ -165,6 +180,7 @@
   .daily-left { min-width: 0; padding: 4px 24px 8px; }
   .daily-right { min-width: 0; padding: 4px 24px 8px; border-left: 1px solid var(--line);
     background: color-mix(in srgb, var(--accent) 9%, var(--bg-panel)); }
+  /* 底部左右两半：标题、标签、数值统一字体字号 */
   .daily-card .side-title { font-size: 20px; color: var(--ink); letter-spacing: 0.04em; padding: 8px 0 6px; }
   .daily-card .day-row .t-rl, .daily-card .day-row .t-open, .daily-card .day-row .t-rv { font-size: 20px; font-weight: 500; color: var(--ink); letter-spacing: 0; font-family: inherit; }
   .daily-card .day-row .t-open { padding: 0 4px; }
@@ -172,13 +188,13 @@
   #open-list { max-height: none; overflow: visible; }
   .day-row .t-open { flex: 1; text-align: center; font-size: 13px; color: var(--ink-dim); padding: 0 8px; white-space: nowrap; }
   #daily-list { display: flex; flex-direction: column; width: 100%; }
-  /* Collapsed: only today shown; click arrow to expand */
+  /* 折叠：只显示今天，其余日期点箭头展开 */
   .dl-list:not(.expanded) .day-row:not(.today) { display: none; }
   #daily-toggle, #open-title { display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; -webkit-user-select: none; }
   #daily-toggle .arrow, #open-title .arrow { width: 22px; height: 22px; flex: none; color: var(--ink-dim); transition: transform .2s ease; }
   #daily-toggle[aria-expanded="true"] .arrow, #open-title[aria-expanded="true"] .arrow { transform: rotate(180deg); }
   #daily-toggle:hover .arrow, #open-title:hover .arrow { color: var(--accent); }
-  /* Opens today: collapsed shows only the latest row */
+  /* 今日打开：折叠时只显示最新一行 */
   .ol-list:not(.expanded) .day-row:not(:first-child) { display: none; }
   .day-row { padding: 3px 0; width: 100%; }
   .day-row .t-rl { font-size: 14px; }
@@ -187,7 +203,7 @@
   .day-row .t-rv { font-size: clamp(14px, 2.2vw, 18px); }
   .side-row.session-row .t-rv { font-size: clamp(20px, 3.4vw, 30px); font-weight: 700; color: var(--accent); }
 
-  /* Alert modal */
+  /* 提示弹窗 */
   .modal-mask {
     position: fixed; top: calc(16px + env(safe-area-inset-top, 0px)); right: 16px; left: 16px;
     display: flex; justify-content: center; pointer-events: none; z-index: 100;
@@ -206,7 +222,7 @@
   .alert-list div { font-size: 13px; color: var(--ink-dim); padding: 4px 0; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; }
   .alert-list div b { color: var(--ink); font-weight: 500; }
 
-  /* Stats panel: unified, larger font */
+  /* 统计面板：统一字号并放大 */
   .col-side, .stats-card { --stat-fs: 18px; --stat-h: 56px; }
   .stats-card .side-title,
   .stats-card #stats-toggle > span,
@@ -222,26 +238,27 @@
   .stats-card #stats-toggle .arrow { width: 28px; height: 28px; }
   .stats-card #stats-toggle > span { padding-left: 28px; }
 
-  /* Daily usage this week + opens today: merged, stacked vertically */
+  /* 本周每天用时 + 今日打开：并入统计卡片，竖向排列 */
   .col-side .daily-card.merged { grid-template-columns: minmax(0, 1fr); margin-top: 0; border-top: none; }
   .col-side .daily-card.merged .daily-left, .col-side .daily-card.merged .daily-right { padding: 4px 0 8px; }
-  .col-side .daily-card.merged .daily-right { border-left: none; border-top: 1px solid var(--line); background: transparent; }
+  .col-side .daily-card.merged .daily-right { border-left: none; border-top: none; background: transparent; order: 1; }
+  .col-side .daily-card.merged .daily-left { order: 2; border-top: 1px solid var(--line); }
   .col-side .daily-card.merged .side-title { font-size: var(--stat-fs); }
   .col-side .daily-card.merged .day-row .t-rl, .col-side .daily-card.merged .day-row .t-open, .col-side .daily-card.merged .day-row .t-rv { font-size: var(--stat-fs); }
   .col-side .col-side .daily-card.merged .side-row { flex: none; padding: 5px 0; }
-  /* Right column: split top/bottom */
+  /* 右栏：上下均分（上：统计；下：本周每天用时 + 今日打开） */
   .col-side { display: grid; grid-template-rows: auto 1fr; gap: 8px; }
   .col-side > .card { min-height: 0; }
   .stats-bottom { display: flex; flex-direction: column; }
   .stats-bottom .daily-card.merged { flex: 1; }
-  /* Title bar: time since page opened, turns red after 45 minutes */
+  /* 标题栏：页面打开以来的使用时间，满 45 分钟变红 */
   .titlebar { display: flex; justify-content: center; align-items: baseline; gap: 14px; padding: 8px 20px; transition: border-color .3s ease; }
   .titlebar .tb-l { font-size: 15px; color: var(--ink-dim); letter-spacing: 0.06em; transition: color .3s ease; }
   .titlebar .tb-v { font-size: 28px; font-weight: 600; color: var(--accent); line-height: 1.1; transition: color .3s ease; }
   .titlebar.alert { border-color: var(--danger); }
   .titlebar.alert .tb-l, .titlebar.alert .tb-v { color: var(--danger); }
 
-  /* Memo */
+  /* 备忘栏 */
   .memo-card { padding: 10px 18px 14px; }
   .memo-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 4px 0 8px; }
   .memo-head .m-title { font-size: 18px; font-weight: 500; letter-spacing: 0.02em; }
@@ -263,6 +280,18 @@
   .tg .arrow { width: 22px; height: 22px; flex: none; }
   .stats-card .tg .arrow { width: 28px; height: 28px; }
   .stats-card .tg > span { flex: 1; text-align: center; padding-left: 28px; }
+  /* 右栏：缩小行间距；备忘放到右栏最底部 */
+  .col-side { grid-template-rows: auto auto auto; gap: 6px; }
+  .col-side .stats-card { --stat-h: 38px; }
+  .col-side .side-row, .col-side .stats-card .side-row { padding: 3px 0; }
+  .col-side .stats-card .side-row.session-row { height: var(--stat-h); }
+  .col-side .stats-card .side-title, .col-side .daily-card.merged .side-title { padding: 3px 0 2px; }
+  .col-side .daily-card.merged .side-row, .col-side .daily-card.merged .day-row { padding: 2px 0; }
+  .col-side .daily-card.merged .daily-left, .col-side .daily-card.merged .daily-right { padding-top: 2px; padding-bottom: 4px; }
+  .col-side .memo-card { padding: 6px 14px 8px; }
+  .col-side .memo-head { padding: 2px 0 6px; }
+  .col-side .memo-body { min-height: 90px; max-height: 240px; }
+
 </style>
 </head>
 <body>
@@ -275,13 +304,13 @@
 
 
   <div class="card titlebar" id="usage-bar">
-    <span class="tb-l">Session time</span>
+    <span class="tb-l">This session</span>
     <span class="tb-v num" id="usage-time">00:00:00</span>
   </div>
 
   <main class="layout">
 
-    <!-- Left: timer area -->
+    <!-- 左：计时主区 -->
     <section class="col-main">
       <div class="card switcher">
         <button id="tab-stopwatch" class="active">Stopwatch</button>
@@ -289,7 +318,7 @@
       </div>
 
       <div class="zone">
-      <!-- Stopwatch -->
+      <!-- 正计时 -->
       <div class="card stage" id="stopwatch-stage">
         <div class="display-wrap">
           <svg class="ring" viewBox="0 0 240 240">
@@ -310,7 +339,7 @@
         <div class="laps num" id="sw-laps"></div>
       </div>
 
-      <!-- Countdown -->
+      <!-- 倒计时 -->
       <div class="card stage hidden" id="countdown-stage">
         <div class="display-wrap">
           <svg class="ring" viewBox="0 0 240 240">
@@ -352,7 +381,7 @@
 
     </section>
 
-    <!-- Right: stats -->
+    <!-- 右：统计区 -->
     <aside class="col-side">
       <div class="card side-panel stats-card">
         <div class="side-title tg" id="stats-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="stats-scroll">
@@ -364,7 +393,7 @@
             <div class="stat-item"><span class="t-rl">Today</span><span class="t-rv num" id="u-day">00:00</span></div>
             <div class="stat-item"><span class="t-rl">This week</span><span class="t-rv num" id="u-week">00:00</span></div>
             <div class="stat-item"><span class="t-rl">This month</span><span class="t-rv num" id="u-month">00:00</span></div>
-            <div class="stat-item"><span class="t-rl">All time</span><span class="t-rv num" id="total-time">00:00</span></div>
+                        <div class="stat-item"><span class="t-rl">All time</span><span class="t-rv num" id="total-time">00:00</span></div>
           </div>
           <div class="stats-dots" id="stats-dots" aria-hidden="true">
             <button tabindex="-1" title="Today"></button>
@@ -378,7 +407,7 @@
         <div class="daily-card merged">
           <div class="daily-left">
             <div class="side-title tg" id="daily-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="daily-list">
-              <span>Daily usage this week</span>
+              <span>Daily time this week</span>
               <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
             <div id="daily-list" class="dl-list"></div>
@@ -392,12 +421,7 @@
           </div>
         </div>
       </div>
-    </aside>
-
-  </main>
-
-  <!-- Bottom: memo -->
-  <div class="card memo-card" id="memo-card">
+    <div class="card memo-card" id="memo-card">
     <div class="memo-head">
       <span class="m-title">Memo</span>
       <div class="m-tools">
@@ -407,13 +431,18 @@
         <input type="file" id="memo-file" accept="image/*" multiple hidden>
       </div>
     </div>
-    <div class="memo-body" id="memo-body" contenteditable="true" spellcheck="false" data-ph="Write your memo here. You can paste or insert images; it saves automatically. Include a time (e.g. 14:30 or 2:30pm) and the tab title will scroll for 15 seconds when it arrives."></div>
-    <div class="memo-hint">Click an image, then press Delete / Backspace to remove it</div>
+    <div class="memo-body" id="memo-body" contenteditable="true" spellcheck="false" data-ph="Write memos here. Paste or insert images; saved automatically. Include a time (e.g. 14:30 or 3:30pm) and the tab title will scroll for 15 seconds when it arrives."></div>
+    <div class="memo-hint">Select an image and press Delete / Backspace to remove it</div>
   </div>
+    </aside>
+
+  </main>
+
+
 
 </div>
 
-  <!-- 15-minute alert modal -->
+  <!-- 15 分钟提示弹窗 -->
   <div class="modal-mask hidden" id="sw-modal" role="dialog" aria-modal="true" aria-labelledby="sw-modal-title">
     <div class="modal">
       <h2 id="sw-modal-title" class="num">⏰ 15:00</h2>
@@ -426,10 +455,10 @@
 <script>
 (function(){
   const CIRC = 2 * Math.PI * 108;
-  const PAGE_TS = Date.now();                 // Moment the page opened: session time counts from here, unaffected by pause/reset
-  const USAGE_ALERT_MS = 45 * 60 * 1000;      // Turns red after 45 minutes
+  const PAGE_TS = Date.now();                 // 页面打开时刻：始终使用时间从这里算起，不受暂停/重置影响
+  const USAGE_ALERT_MS = 45 * 60 * 1000;      // 满 45 分钟变红
 
-  // ---------- Dial: ticks + hand ----------
+  // ---------- 时钟表盘：刻度 + 指针 ----------
   function buildDial(svg) {
     const NS = 'http://www.w3.org/2000/svg';
     const g = document.createElementNS(NS, 'g');
@@ -461,7 +490,7 @@
   const swHand = buildDial(document.querySelector('#stopwatch-stage svg.ring'));
   const cdHand = buildDial(document.querySelector('#countdown-stage svg.ring'));
 
-  // ---------- Audio ----------
+  // ---------- 音频提示 ----------
   let audioCtx = null;
   function ensureAudio() {
     if (!audioCtx) {
@@ -487,7 +516,7 @@
   function playAlarm() {
     ensureAudio();
     if (!audioCtx) return;
-    // Three rising beeps
+    // 三声上扬提示音
     beep(880, 0.18, 0,   0.28);
     beep(880, 0.18, 0.26, 0.28);
     beep(1175, 0.32, 0.52, 0.30);
@@ -498,7 +527,7 @@
     beep(660, 0.05, 0, 0.12);
   }
 
-  // ---------- Tab switching ----------
+  // ---------- Tab 切换 ----------
   const tabSW = document.getElementById('tab-stopwatch');
   const tabCD = document.getElementById('tab-countdown');
   const stageSW = document.getElementById('stopwatch-stage');
@@ -512,7 +541,7 @@
     stageCD.classList.remove('hidden'); stageSW.classList.add('hidden');
   });
 
-  // ================= Stopwatch =================
+  // ================= 正计时 (Stopwatch) =================
   let swRunning = false;
   let swStartTs = 0;
   let swElapsed = 0; // ms accumulated before current run
@@ -550,7 +579,7 @@
     swHand(cyclePos * 360);
   }
 
-  // ---- Usage totals: all-time + daily records (for today/week/month) ----
+  // ---- 使用累计时间：总累计 + 每日记录（用于 今日/本周/本月）----
   const USAGE_KEY = 'timer_usage_v2';
   const OLD_KEY = 'timer_total_v1';
   const totalTimeEl = document.getElementById('total-time');
@@ -584,10 +613,10 @@
     const now = new Date(); now.setHours(0,0,0,0);
     const todayK = dayKey(now);
     const monday = new Date(now);
-    monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));   // Monday of this week
+    monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));   // 本周周一
     for (let i = 0; i < 7; i++) {
-      const d = new Date(monday); d.setDate(monday.getDate() + i);   // Mon → Sun
-      const label = WK[d.getDay()] + ' ' + (d.getMonth()+1) + '/' + d.getDate();
+      const d = new Date(monday); d.setDate(monday.getDate() + i);   // 周一 → 周日
+      const label = (d.getMonth()+1) + '/' + d.getDate() + ' ' + WK[d.getDay()];
       setText(dailyRows[i].l, 'dl' + i, label);
       setText(dailyRows[i].v, 'dv' + i, fmtHMS(usage.days[dayKey(d)] || 0));
       dailyRows[i].row.classList.toggle('today', dayKey(d) === todayK);
@@ -606,7 +635,7 @@
         u.days = o.days || {};
         return u;
       }
-      // Migrate legacy data (only total + today)
+      // 迁移旧版数据（只有总累计和今日）
       const old = JSON.parse(localStorage.getItem(OLD_KEY) || 'null');
       if (old && typeof old.ms === 'number') {
         u.total = old.ms;
@@ -630,7 +659,7 @@
   function saveUsage() {
     try { pruneDays(); localStorage.setItem(USAGE_KEY, JSON.stringify(usage)); } catch(e) {}
   }
-  // Credit running time since the last accrual to the current day
+  // 把「上次结算至今」的运行时间记到当天
   function accrue() {
     if (!swRunning) return;
     const now = Date.now();
@@ -649,7 +678,7 @@
     return String(Math.floor(t/3600)).padStart(2,'0') + ':' +
            String(Math.floor((t%3600)/60)).padStart(2,'0');
   }
-  function fmtHMSs(ms) {   // Session time: with seconds so you can see it moving
+  function fmtHMSs(ms) {   // 本次时间：带秒，能看到它在走
     const t = Math.floor(ms / 1000);
     return String(Math.floor(t/3600)).padStart(2,'0') + ':' +
            String(Math.floor((t%3600)/60)).padStart(2,'0') + ':' +
@@ -660,7 +689,7 @@
     const y = now.getFullYear(), m = now.getMonth();
     const todayK = dayKey(now);
     const mon = new Date(now); mon.setHours(0,0,0,0);
-    mon.setDate(mon.getDate() - ((mon.getDay() + 6) % 7));   // Week starts on Monday
+    mon.setDate(mon.getDate() - ((mon.getDay() + 6) % 7));   // 本周从周一开始
     const weekK = dayKey(mon);
     const monthPrefix = y + '-' + String(m+1).padStart(2,'0');
     let day = 0, week = 0, month = 0;
@@ -678,8 +707,8 @@
   }
   const usageEl = document.getElementById('usage-time');
   const usageBar = document.getElementById('usage-bar');
-  // Browser tab title also shows session time; a 🔴 is added after 45 min (tab titles can't be colored).
-  // The tab title alternates every 3 seconds between session time and today's date + weekday.
+  // 浏览器标签页标题同步显示使用时间；满 45 分钟加红点（标签页标题无法设颜色，用 🔴 代替）
+  // 标签页标题每 3 秒在「本次时间」和「当天日期 + 星期」之间交替
   function usageTitle() {
     const mq = memoMarquee();
     if (mq) return mq;
@@ -688,7 +717,7 @@
     const showDate = Math.floor((Date.now() - PAGE_TS) / 3000) % 2 === 1;
     if (showDate) {
       const d = new Date();
-      return red + WK[d.getDay()] + ', ' + MON[d.getMonth()] + ' ' + d.getDate();
+      return red + MON[d.getMonth()] + ' ' + d.getDate() + ' ' + WK[d.getDay()];
     }
     return red + fmtHMS(ms);
   }
@@ -713,11 +742,11 @@
   window.addEventListener('pagehide', () => { accrue(); saveUsage(); });
   document.addEventListener('visibilitychange', () => { renderTotal(); });
 
-  // ---- Stats list: scrolls internally, one item at a time ----
+  // ---- 统计列表：内部滚动，一次显示一项；右侧圆点指示当前项，可点击跳转 ----
   const statsScroll = document.getElementById('stats-scroll');
   const statsDots = Array.from(document.querySelectorAll('#stats-dots button'));
   const STAT_N = statsDots.length;
-  // Looping scroll: append a clone of the first item; after scrolling to it, jump back to top instantly
+  // 循环滚动：在末尾追加第一项的副本，滚到副本后瞬间跳回顶部（视觉上不回滚）
   const statsClone = statsScroll.firstElementChild.cloneNode(true);
   statsClone.querySelectorAll('[id]').forEach(e => e.removeAttribute('id'));
   statsClone.setAttribute('aria-hidden', 'true');
@@ -738,6 +767,7 @@
     return Math.round(statsScroll.scrollTop / (statsScroll.clientHeight || 1)) % STAT_N;
   }
   statsDots.forEach((d, k) => d.addEventListener('click', () => goStat(k)));
+  // 滚轮：滚一格就切到下一项（避免小幅滚动被吸附回原位）；到头后让页面自己滚动
   let statsWheelLock = false;
   const statsCard = document.querySelector('.stats-card');
   const statsToggle = document.getElementById('stats-toggle');
@@ -755,7 +785,7 @@
   });
   syncStatsDots();
 
-  // ---- Alert every 15 minutes and show the accumulated time ----
+  // ---- 每隔 15 分钟提醒一次，并显示累计时间 ----
   const SW_ALERT_MS = 15 * 60 * 1000;
   let swAlertedCount = 0;
   const swModal = document.getElementById('sw-modal');
@@ -768,7 +798,7 @@
     const elapsed = swElapsed + (Date.now() - swStartTs);
     const n = Math.floor(elapsed / SW_ALERT_MS);
     if (n > swAlertedCount) {
-      // If the page was suspended in the background it may cross several 15-min marks; alert once with the latest
+      // 页面在后台被挂起时可能一次跨过多个 15 分钟，只提醒一次并显示最新累计
       swAlertedCount = n;
       swShowAlert(n * SW_ALERT_MS, n);
     }
@@ -776,18 +806,19 @@
 
   function swShowAlert(ms, n) {
     const total = fmtStopwatch(ms).main;
+    const text = total;
     document.getElementById('sw-modal-title').textContent = '⏰ ' + total;
-    // Each alert appends a record row, newest on top
+    // 累计显示：每次提醒都追加一行记录，最新的在最上面
     const list = document.getElementById('sw-alert-list');
     const row = document.createElement('div');
-    const nowStr = new Date().toLocaleTimeString('en-GB', { hour12: false, hour: '2-digit', minute: '2-digit' });
+    const nowStr = new Date().toLocaleTimeString('zh-CN', { hour12: false, hour: '2-digit', minute: '2-digit' });
     row.innerHTML = '<span><b>' + total + '</b></span><span>' + nowStr + '</span>';
     list.insertBefore(row, list.firstChild);
     swModal.classList.remove('hidden');
     playTick();
   }
 
-  // Re-check immediately when returning from background
+  // 从后台切回前台时立即补检查
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') { swCheckAlert(); if (swRunning) swRender(); }
   });
@@ -837,7 +868,7 @@
   });
 
   swResetBtn.addEventListener('click', () => {
-    accrue();   // Settle this run into the totals before resetting
+    accrue();   // 重置前先把这一轮结算进累计
     swRunning = false;
     clearTimeout(swRaf);
     swElapsed = 0;
@@ -858,10 +889,10 @@
     saveUsage();
   });
 
-  // ================= Countdown =================
+  // ================= 倒计时 (Countdown) =================
   let cdTotalMs = 5 * 60 * 1000;
   let cdRemainingMs = cdTotalMs;
-  let cdEndAt = 0;      // Absolute end timestamp (Date.now() based) so background tabs don't drift
+  let cdEndAt = 0;      // 绝对结束时间戳 (Date.now() 基准)，切到后台也不会失准
   let cdRunning = false;
   let cdRaf = null;
   let cdFinished = false;
@@ -962,8 +993,9 @@
     }
   }
 
-  // When returning from the background, recompute immediately from the absolute timestamp,
-  // avoiding drift from throttled timers; if the countdown already ended, the alarm plays now.
+  // 页面从后台切回前台时，立刻用绝对时间戳补算一次，
+  // 避免浏览器在后台标签页里把定时器完全挂起导致的误差；
+  // 如果倒计时其实已经在后台结束，这里会立刻补放提示音。
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible' && cdRunning) {
       ensureAudio();
@@ -1025,7 +1057,7 @@
 
   updateCdDisplay();
 
-  // ---------- Top clock: local ----------
+  // ---------- 顶部时钟：当地 ----------
   function fmtClock(d, tz) {
     const opt = { hour12: false, hour: '2-digit', minute: '2-digit' };
     if (tz) opt.timeZone = tz;
@@ -1054,7 +1086,7 @@
     if (document.visibilityState === 'visible') renderClocks();
   });
 
-  // ---------- Opens today ----------
+  // ---------- 当日打开次数 ----------
   (function(){
     const KEY = 'timer_opens_v1';
     const todayK = dayKey(new Date());
@@ -1066,11 +1098,11 @@
     rec.count += 1;
     try { localStorage.setItem(KEY, JSON.stringify(rec)); } catch(e) {}
 
-    // Per-day open records: each open stores open time s / end time e; e keeps updating while the page is open
+    // 每天的打开记录：每次打开记「打开时间 s / 截止时间 e」，截止时间在页面开着时持续更新
     try { openDays = JSON.parse(localStorage.getItem(OPENDAYS_KEY) || '{}') || {}; } catch(e) { openDays = {}; }
     const nowTs = Date.now();
     const rd = openDays[todayK] || {};
-    if (!Array.isArray(rd.sessions)) {   // Migrate legacy format (HH:MM:SS text only)
+    if (!Array.isArray(rd.sessions)) {   // 迁移旧版（只有 HH:MM:SS 文本）
       rd.sessions = (rd.times || []).map(t => {
         const p = String(t).split(':').map(Number);
         const d = new Date(); d.setHours(p[0] || 0, p[1] || 0, p[2] || 0, 0);
@@ -1116,7 +1148,7 @@
       if (ss === cur) { curMid = mid; curVal = val; }
       openListEl.appendChild(row);
     }
-    // Current session: end time and duration update live
+    // 当前这次：截止时间和时长实时更新
     setInterval(() => {
       cur.e = Date.now();
       curMid.textContent = fmtT(cur.s) + ' – ' + fmtT(cur.e);
@@ -1126,7 +1158,7 @@
     window.addEventListener('pagehide', () => { cur.e = Date.now(); saveOpens(); });
   })();
 
-  // ---------- Ring size: bottom edge aligns with the last row of the stats panel (Opened today) ----------
+  // ---------- 圆圈大小：底边与统计面板最后一行（今日打开）底边对齐 ----------
   const UI_SCALE = 0.8;
   let ghost = null;
   function alignRing() {
@@ -1137,7 +1169,7 @@
     if (ghost) ghost.remove();
     ghost = document.createElement('div');
     ghost.setAttribute('aria-hidden', 'true');
-    side.querySelectorAll(':scope > .card').forEach(c => {
+    side.querySelectorAll(':scope > .card:not(.memo-card)').forEach(c => {
       const k = c.cloneNode(true);
       k.querySelectorAll('[id]').forEach(e => e.removeAttribute('id'));
       ghost.appendChild(k);
@@ -1162,7 +1194,7 @@
   tabCD.addEventListener('click', alignRing);
   setInterval(alignRing, 500);
 
-  // ================= Memo =================
+  // ================= 备忘栏 =================
   const MEMO_KEY = 'timer_memo_v1';
   const memoEl = document.getElementById('memo-body');
   const memoStatus = document.getElementById('memo-status');
@@ -1177,7 +1209,7 @@
       localStorage.setItem(MEMO_KEY, memoEl.innerHTML);
       memoStatus.textContent = 'Saved'; memoStatus.classList.remove('err');
     } catch(e) {
-      memoStatus.textContent = 'Save failed (out of space)'; memoStatus.classList.add('err');
+      memoStatus.textContent = 'Save failed (storage full)'; memoStatus.classList.add('err');
     }
   }
   function memoDirty() {
@@ -1188,7 +1220,7 @@
   memoEl.addEventListener('input', memoDirty);
   window.addEventListener('pagehide', memoSave);
 
-  // Images are compressed before insertion (longest side 1000px, JPEG) to save space
+  // 图片压缩后插入（最长边 1000px，JPEG），减小占用空间
   function memoAddImage(file) {
     if (!file || !/^image\//.test(file.type)) return;
     const url = URL.createObjectURL(file);
@@ -1232,25 +1264,24 @@
     if (confirm('Clear the memo (including images)?')) { memoEl.innerHTML = ''; memoSave(); }
   });
 
-  // ---- Times written in the memo: scroll in the tab title for 15 seconds when reached ----
+  // ---- 备忘里的时间：到点后在标签页标题滚动 15 秒 ----
   const MARQUEE_MS = 15000;
   let marquee = null;            // { text, start }
-  const memoFired = {};          // Already-fired "date|h:m|line" keys for the day
+  const memoFired = {};          // 当天已触发过的 "日期|时:分|行文本"
 
-  // Extract times from a line: 14:30, 2:30pm, 2pm, 3 o'clock, plus Chinese forms (3点, 3点30分, 3点半)
+  // Extract times from a line: 14:30, 3pm, 3:30pm
   function parseTimes(line) {
     const out = [];
-    const re = /(\d{1,2})\s*[:：]\s*(\d{2})\s*([ap]\.?m\.?)?|(\d{1,2})\s*([ap]\.?m\.?)|(\d{1,2})\s*[点時时]\s*(?:(\d{1,2})\s*分?|(半))?/gi;
+    const re = /(\d{1,2})\s*[:：]\s*(\d{2})\s*([ap]\.?m\.?)?|(\d{1,2})\s*([ap]\.?m\.?)/gi;
     let m;
     while ((m = re.exec(line)) !== null) {
-      let h, mi, ap = null;
+      let h, mi, ap;
       if (m[1] !== undefined) { h = +m[1]; mi = +m[2]; ap = m[3]; }
-      else if (m[4] !== undefined) { h = +m[4]; mi = 0; ap = m[5]; }
-      else { h = +m[6]; mi = m[8] ? 30 : (m[7] ? +m[7] : 0); }
+      else { h = +m[4]; mi = 0; ap = m[5]; }
       if (ap) {
-        const isPm = /^p/i.test(ap);
+        const pm = ap[0].toLowerCase() === 'p';
         if (h < 1 || h > 12) continue;
-        h = (h % 12) + (isPm ? 12 : 0);
+        h = (h % 12) + (pm ? 12 : 0);
       }
       if (h >= 0 && h <= 23 && mi >= 0 && mi <= 59) out.push([h, mi]);
     }
@@ -1277,7 +1308,7 @@
   setInterval(memoCheck, 1000);
   document.addEventListener('visibilitychange', memoCheck);
 
-  // Returns the scrolling title while active; null otherwise
+  // 返回滚动中的标题；不在滚动期则返回 null
   function memoMarquee() {
     if (!marquee) return null;
     const el = Date.now() - marquee.start;
@@ -1289,7 +1320,7 @@
     return '⏰ ' + rot;
   }
 
-  // Auto-start the stopwatch when the page opens
+  // 打开网页后自动开始正计时（秒表）
   window.addEventListener('load', () => {
     swStartBtn.click();
   });
@@ -1297,3 +1328,5 @@
 </script>
 </body>
 </html>
+
+</body></html>
